@@ -11,8 +11,8 @@ Cursor编辑器特性包含：
 ]]
 
 -- Must be set before loading lazy.nvim
-vim.g.mapleader = ","
-vim.g.maplocalleader = " "
+vim.g.mapleader = " "
+vim.g.maplocalleader = ","
 
 -- bootstrap lazy.nvim
 require("core.bootstrap")

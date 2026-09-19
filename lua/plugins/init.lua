@@ -11,6 +11,18 @@
 --   plugins/colorscheme.lua  配色方案(tokyonight/gruvbox)
 local lazy = require("lazy")
 
+-- 静默 lazy.nvim 的 markdown 通知（更新列表等），避免刷屏 + Press ENTER
+do
+  local notify = vim.notify
+  vim.notify = function(msg, level, opts)
+    opts = opts or {}
+    if opts.title == "lazy.nvim" then
+      return
+    end
+    return notify(msg, level, opts)
+  end
+end
+
 lazy.setup({
   { import = "plugins.lsp" },
   { import = "plugins.cmp" },
@@ -24,14 +36,16 @@ lazy.setup({
 }, {
   -- lazy.nvim 选项配置
   defaults = {
-    lazy = false,
+    lazy = true,
     version = false,
   },
   install = { colorscheme = { "desert", "tokyonight", "gruvbox" } },
   checker = {
-    enabled = true,   -- 启用插件更新检查
-    notify = true,    -- 启用更新通知
-    frequency = 3600, -- 每小时检查一次（秒）
+    enabled = false, -- 关闭启动更新检查（需要时用 :Lazy check）
+    notify = false,
+  },
+  change_detection = {
+    notify = false,
   },
   performance = {
     rtp = {

@@ -1,19 +1,114 @@
 -- 编辑基础:which-key 提示、文件树、括号、语法高亮、彩虹括号
 return {
-  -- which-key 显示快捷键提示
+  -- which-key：Doom Emacs 风格（底部通栏多列，KEY : desc，+group）
   {
     "folke/which-key.nvim",
     event = "VeryLazy",
     config = function()
-      require("which-key").setup({
-        -- v3: window 已废弃,改用 win
+      local wk = require("which-key")
+      wk.setup({
+        -- Explicit classic geometry (don't rely on deferred preset merge alone)
+        preset = "classic",
+        delay = 300,
         win = {
-          border = "single",
+          width = math.huge,
+          height = { min = 4, max = 25 },
+          col = 0,
+          row = -1,
+          border = "none",
+          title = false,
+          padding = { 0, 1 },
+          wo = { winblend = 0 },
         },
-        -- v3: triggers_blacklist → triggers.disable; 默认已包含 <auto> 自动检测前缀键
+        layout = {
+          width = { min = 18, max = 50 },
+          spacing = 2,
+        },
+        sort = { "local", "order", "group", "alphanum", "mod" },
+        plugins = {
+          spelling = {
+            enabled = true,
+            suggestions = 8,
+          },
+          marks = true,
+          registers = true,
+          presets = {
+            operators = false,
+            motions = false,
+            text_objects = false,
+            windows = false,
+            nav = false,
+            z = false,
+            g = false,
+          },
+        },
+        icons = {
+          breadcrumb = "»",
+          separator = " : ",
+          group = "+",
+          ellipsis = "…",
+          mappings = false,
+          rules = false,
+          colors = false,
+          keys = {
+            Up = "<Up>",
+            Down = "<Down>",
+            Left = "<Left>",
+            Right = "<Right>",
+            C = "C-",
+            M = "M-",
+            D = "D-",
+            S = "S-",
+            CR = "RET",
+            Esc = "ESC",
+            ScrollWheelDown = "<ScrollWheelDown>",
+            ScrollWheelUp = "<ScrollWheelUp>",
+            NL = "RET",
+            BS = "DEL",
+            Space = "SPC",
+            Tab = "TAB",
+            F1 = "<F1>",
+            F2 = "<F2>",
+            F3 = "<F3>",
+            F4 = "<F4>",
+            F5 = "<F5>",
+            F6 = "<F6>",
+            F7 = "<F7>",
+            F8 = "<F8>",
+            F9 = "<F9>",
+            F10 = "<F10>",
+            F11 = "<F11>",
+            F12 = "<F12>",
+          },
+        },
+        show_help = true,
+        show_keys = true,
         triggers = {
-          { "<auto>", mode = "nxso" },
+          { "<leader>", mode = "n" },
+          { "<localleader>", mode = "n" },
         },
+      })
+
+      -- Doom 风格分组标签（group 不加 +，由 icons.group 自动加）
+      wk.add({
+        { "<leader>h", group = "help" },
+        { "<leader>f", group = "file" },
+        { "<leader>b", group = "buffer" },
+        { "<leader>w", group = "window" },
+        { "<leader>p", group = "project" },
+        { "<leader>s", group = "search" },
+        { "<leader>g", group = "git" },
+        { "<leader>c", group = "code" },
+        { "<leader>q", group = "quit/session" },
+        { "<leader>t", group = "toggle" },
+        { "<leader>o", group = "open" },
+        { "<leader>a", group = "actions" },
+        { "<leader>u", group = "plugins" },
+        { "<leader>i", group = "insert" },
+        { "<leader>n", group = "notes" },
+        { "<leader><tab>", group = "workspace" },
+        { "<leader>[", group = "previous" },
+        { "<leader>]", group = "next" },
       })
     end,
   },
@@ -28,30 +123,11 @@ return {
     event = "VeryLazy",
     config = function()
       require("legendary").setup({
-        -- 默认已开启 keymaps/commands/augroups/plugins 收集
         include_builtin = false,
+        integrate = {
+          which_key = false,
+        },
       })
-      -- 扫描所有带 desc 的全局键位，注册为"仅显示"条目（选中后回放按键，不重复绑定）
-      -- 这样 legendary 才能展示 vim.keymap.set 注册的快捷键（如 core/keymaps.lua 中的）
-      -- 注意：legendary 懒加载（VeryLazy），config 执行时 core/keymaps.lua 已运行完毕
-      local legendary = require("legendary")
-      local function scan_keymaps()
-        for _, mode in ipairs({ "n", "v", "x", "o", "i", "c", "t" }) do
-          for _, km in ipairs(vim.api.nvim_get_keymap(mode)) do
-            local desc = km.desc
-            if
-              desc
-              and desc ~= ""
-              and desc ~= "which-key-trigger"
-              and km.lhs:sub(1, 6) ~= "<Plug>"
-              and km.lhs:sub(1, 5) ~= "<SNR>"
-            then
-              legendary.keymaps({ { km.lhs, description = desc, mode = mode } })
-            end
-          end
-        end
-      end
-      scan_keymaps()
     end,
   },
 
@@ -76,6 +152,7 @@ return {
   -- 文件树
   {
     "nvim-tree/nvim-tree.lua",
+    cmd = { "NvimTreeToggle", "NvimTreeOpen", "NvimTreeClose" },
     dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
       require("nvim-tree").setup({
@@ -148,6 +225,7 @@ return {
   -- 彩虹括号 (更好的语法高亮)
   {
     "HiPhish/rainbow-delimiters.nvim",
+    event = "VeryLazy",
     config = function()
       local rainbow_delimiters = require "rainbow-delimiters"
       vim.g.rainbow_delimiters = {

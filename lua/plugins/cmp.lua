@@ -1,4 +1,4 @@
--- 补全:nvim-cmp + 依赖源
+-- 补全:nvim-cmp + luasnip snippet 支持
 return {
   {
     "hrsh7th/nvim-cmp",
@@ -8,19 +8,23 @@ return {
       "hrsh7th/cmp-buffer",
       "hrsh7th/cmp-path",
       "hrsh7th/cmp-cmdline",
-      "hrsh7th/cmp-vsnip",
-      "hrsh7th/vim-vsnip",
+      "L3MON4D3/LuaSnip",
+      "saadparwaiz1/cmp_luasnip",
       "rafamadriz/friendly-snippets",
       "onsails/lspkind-nvim",
     },
     config = function()
       local cmp = require("cmp")
+      local luasnip = require("luasnip")
       local lspkind = require("lspkind")
+
+      -- 加载 friendly-snippets 默认片段库
+      require("luasnip.loaders.from_vscode").lazy_load()
 
       cmp.setup({
         snippet = {
           expand = function(args)
-            vim.fn["vsnip#anonymous"](args.body)
+            luasnip.lsp_expand(args.body)
           end,
         },
         mapping = {
@@ -35,14 +39,18 @@ return {
           ["<CR>"] = cmp.mapping.confirm({ select = true }),
           ["<Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
-              cmp.select_next_item()
+              cmp.select_next_item({ behavior = cmp.SelectBehavior.Insert })
+            elseif luasnip.expand_or_jumpable() then
+              luasnip.expand_or_jump()
             else
               fallback()
             end
           end, { "i", "s" }),
           ["<S-Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
-              cmp.select_prev_item()
+              cmp.select_prev_item({ behavior = cmp.SelectBehavior.Insert })
+            elseif luasnip.jumpable(-1) then
+              luasnip.jump(-1)
             else
               fallback()
             end
@@ -50,7 +58,7 @@ return {
         },
         sources = cmp.config.sources({
           { name = "nvim_lsp" },
-          { name = "vsnip" },
+          { name = "luasnip" },
           { name = "buffer" },
           { name = "path" },
         }),

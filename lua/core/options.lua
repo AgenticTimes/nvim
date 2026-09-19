@@ -12,6 +12,8 @@ opt.linespace = 8         -- 行间距（像素，GUI 下生效；终端内需�
 opt.ruler = false
 opt.cmdheight = 0
 opt.showmatch = true
+opt.more = false -- 多行消息不要求 Press ENTER（配合 cmdheight=0）
+opt.shortmess:append("IWcC") -- 减少启动/补全噪音
 
 -- 编辑设置
 opt.expandtab = true      -- 空格替代Tab

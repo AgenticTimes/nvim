@@ -34,10 +34,18 @@ map("n", "<Leader>a[", function()
 end, { desc = "pi: prev pending file" })
 
 map("n", "<Leader>am", function()
+  require("pi.runtime").pick_model()
+end, { desc = "pi: pick model" })
+
+map("n", "<Leader>aM", function()
   require("pi.runtime").cycle_model()
 end, { desc = "pi: cycle model" })
 
 map("n", "<Leader>at", function()
+  require("pi.runtime").pick_thinking()
+end, { desc = "pi: pick thinking level" })
+
+map("n", "<Leader>aT", function()
   require("pi.runtime").cycle_thinking()
 end, { desc = "pi: cycle thinking" })
 

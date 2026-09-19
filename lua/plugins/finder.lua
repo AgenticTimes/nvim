@@ -8,6 +8,8 @@ return {
         defaults = {
           -- 让搜索结果显示文件路径
           path_display = { "smart" },
+          -- above pi ask popup (zindex=60) so vim.ui.select / @picker is never covered
+          zindex = 100,
           -- 文件搜索时忽略的目录/模式
           file_ignore_patterns = {
             "^%.git/",
@@ -24,6 +26,12 @@ return {
               "-not", "-path", "*/node_modules/*",
             },
           },
+        },
+        extensions = {
+          ["ui-select"] = require("telescope.themes").get_dropdown({
+            -- above typical plugin floats (pi ask uses zindex 60)
+            layout_config = { width = 0.6, height = 0.4 },
+          }),
         },
       })
     end,
@@ -43,6 +51,16 @@ return {
     "nvim-telescope/telescope-ui-select.nvim",
     dependencies = { "nvim-telescope/telescope.nvim" },
     config = function()
+      -- ensure extension config applied even if telescope loaded first
+      pcall(function()
+        require("telescope").setup({
+          extensions = {
+            ["ui-select"] = require("telescope.themes").get_dropdown({
+              layout_config = { width = 0.6, height = 0.4 },
+            }),
+          },
+        })
+      end)
       require("telescope").load_extension("ui-select")
     end,
   },

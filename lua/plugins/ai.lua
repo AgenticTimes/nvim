@@ -60,13 +60,42 @@ return {
     end,
   },
 
-  -- pi.neovim - pi coding agent Neovim 前端（零依赖，stdio RPC）
+  -- pi.nvim — 本地 Wave1+：RPC chat UI + host tools + multi-file review
+  -- （替代 AgenticTimes/pi.neovim 的 TUI 默认路径）
   {
-    "AgenticTimes/pi.neovim",
-    lazy = true,
-    cmd = { "Pi", "PiToggle", "PiTermCopy" },
+    dir = vim.fn.expand("~/source/pi.nvim"),
+    name = "pi.nvim",
+    lazy = false,
     config = function()
-      require("pi").setup({ warm_start = true })
+      require("pi").setup({
+        keys = {
+          toggle = "<leader>ai",
+          submit = "<CR>", -- Enter 提交
+          newline = "<C-j>", -- Ctrl+J 换行（终端里 Ctrl/Shift+Enter 不可靠）
+          abort = "<C-c>",
+          accept = "a",
+          reject = "r",
+          next_file = "]f",
+          prev_file = "[f",
+          mention = "@",
+          history_prev = "<Up>",
+          history_next = "<Down>",
+          steer = "<C-s>",
+        },
+        busy_submit = "steer",
+        write_on_accept = true,
+        window = { width = 1.0, height = 1.0, layout = "full", border = "none" },
+      })
+      -- 避免 nvim-cmp 抢走 pi input 的 <CR>
+      vim.api.nvim_create_autocmd("BufEnter", {
+        pattern = "pi://input",
+        callback = function()
+          local ok, cmp = pcall(require, "cmp")
+          if ok and cmp.setup and cmp.setup.buffer then
+            cmp.setup.buffer({ enabled = false })
+          end
+        end,
+      })
     end,
   },
 }

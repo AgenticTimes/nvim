@@ -1,3 +1,5 @@
 .gitnexus
 .omo/
 conversations/
+.ouroboros/
+__pycache__/

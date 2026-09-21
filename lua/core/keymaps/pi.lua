@@ -42,6 +42,10 @@ map("n", "<Leader>aM", function()
 end, { desc = "pi: cycle model" })
 
 map("n", "<Leader>at", function()
+  require("pi.ui").toggle_todos()
+end, { desc = "pi: toggle todo sidebar" })
+
+map("n", "<Leader>ak", function()
   require("pi.runtime").pick_thinking()
 end, { desc = "pi: pick thinking level" })
 

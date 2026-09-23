@@ -28,6 +28,19 @@ return {
           },
           lualine_c = { "filename" },
           lualine_x = {
+            {
+              function()
+                local ok, sl = pcall(require, "pi.statusline")
+                if not ok then
+                  return ""
+                end
+                return sl.lualine()
+              end,
+              cond = function()
+                local ok, sl = pcall(require, "pi.statusline")
+                return ok and sl.lualine() ~= ""
+              end,
+            },
             "encoding",
             "fileformat",
             "filetype",

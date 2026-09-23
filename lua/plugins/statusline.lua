@@ -40,6 +40,7 @@ return {
                 local ok, sl = pcall(require, "pi.statusline")
                 return ok and sl.lualine() ~= ""
               end,
+              color = { fg = "#e0af68", gui = "bold" },
             },
             "encoding",
             "fileformat",

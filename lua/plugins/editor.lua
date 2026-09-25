@@ -351,6 +351,26 @@ return {
     },
   },
 
+  -- 环绕编辑（Doom evil-surround：ys / cs / ds）
+  {
+    "kylechui/nvim-surround",
+    version = "*",
+    event = "VeryLazy",
+    opts = {},
+  },
+
+  -- TODO/FIXME 高亮 + 搜索
+  {
+    "folke/todo-comments.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    event = { "BufReadPost", "BufNewFile" },
+    opts = {},
+    keys = {
+      { "<Leader>xt", "<cmd>TodoTrouble<cr>", desc = "Todo (Trouble)" },
+      { "<Leader>xT", "<cmd>TodoQuickFix<cr>", desc = "Todo quickfix" },
+    },
+  },
+
   -- 自动补全括号
   {
     "windwp/nvim-autopairs",

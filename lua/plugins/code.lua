@@ -96,6 +96,44 @@ return {
     end,
   },
 
+  -- Git diff / 历史（补 gitsigns 的整仓视图）
+  {
+    "sindrets/diffview.nvim",
+    cmd = { "DiffviewOpen", "DiffviewClose", "DiffviewFileHistory", "DiffviewToggleFiles" },
+    keys = {
+      { "<Leader>gd", "<cmd>DiffviewOpen<cr>", desc = "Diffview open" },
+      { "<Leader>gH", "<cmd>DiffviewFileHistory %<cr>", desc = "Diffview file history" },
+      { "<Leader>gx", "<cmd>DiffviewClose<cr>", desc = "Diffview close" },
+    },
+    opts = {},
+  },
+
+  -- 统一格式化（优先外部 formatter，否则 LSP）
+  {
+    "stevearc/conform.nvim",
+    event = { "BufReadPre", "BufNewFile" },
+    cmd = { "ConformInfo" },
+    opts = {
+      formatters_by_ft = {
+        lua = { "stylua" },
+        go = { "gofmt" },
+        javascript = { "prettierd", "prettier", stop_after_first = true },
+        typescript = { "prettierd", "prettier", stop_after_first = true },
+        javascriptreact = { "prettierd", "prettier", stop_after_first = true },
+        typescriptreact = { "prettierd", "prettier", stop_after_first = true },
+        json = { "prettierd", "prettier", stop_after_first = true },
+        markdown = { "prettierd", "prettier", stop_after_first = true },
+        python = { "ruff_format", "black", stop_after_first = true },
+        rust = { "rustfmt" },
+      },
+      default_format_opts = {
+        lsp_format = "fallback",
+        timeout_ms = 3000,
+      },
+      -- 不默认 format-on-save，避免意外改动；用 SPC cf 手动
+    },
+  },
+
   -- 诊断/引用聚合面板（trouble：Problems 面板）
   {
     "folke/trouble.nvim",

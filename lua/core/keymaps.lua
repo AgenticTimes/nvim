@@ -564,7 +564,12 @@ end, { desc = "Jump to documentation" })
 map("n", "<Leader>cj", fzf_lua("lsp_workspace_symbols"), { desc = "Jump to symbol in current workspace" })
 map("n", "<Leader>cJ", fzf_lua("lsp_workspace_symbols"), { desc = "Jump to symbol in any workspace" })
 map("n", "<Leader>cf", function()
-  vim.lsp.buf.format({ async = true })
+  local ok, conform = pcall(require, "conform")
+  if ok then
+    conform.format({ async = true, lsp_format = "fallback" })
+  else
+    vim.lsp.buf.format({ async = true })
+  end
 end, { desc = "Format buffer/region" })
 map("n", "<Leader>cx", function()
   local ok = pcall(vim.cmd, "Trouble diagnostics toggle")
@@ -625,11 +630,24 @@ map("n", "<Leader>gg", function()
   end
 end, { desc = "Git status" })
 map("n", "<Leader>gG", function()
-  local ok, fzf = pcall(require, "fzf-lua")
-  if ok and fzf.git_status then
-    fzf.git_status()
+  if vim.fn.executable("lazygit") == 0 then
+    vim.notify("lazygit not on PATH (brew install lazygit)", vim.log.levels.WARN)
+    return
   end
-end, { desc = "Git status here" })
+  local ok, term = pcall(require, "toggleterm.terminal")
+  if not ok then
+    vim.cmd("terminal lazygit")
+    return
+  end
+  local Terminal = term.Terminal
+  Terminal:new({
+    cmd = "lazygit",
+    dir = "git_dir",
+    direction = "float",
+    float_opts = { border = "rounded" },
+    hidden = true,
+  }):toggle()
+end, { desc = "LazyGit" })
 map("n", "<Leader>gb", function()
   local ok, fzf = pcall(require, "fzf-lua")
   if ok and fzf.git_branches then

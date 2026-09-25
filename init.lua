@@ -38,13 +38,5 @@ end
 -- 加载插件
 require("plugins")
 
--- 轻量 codemap（:CodeAnalyze、<leader>cm 说明浮窗）
-local ok, codemap = pcall(require, "codemap")
-if ok then
-  codemap.setup()
-else
-  vim.notify("codemap 模块加载失败，请检查 lua/codemap.lua", vim.log.levels.WARN)
-end
-
 -- 加载Cursor风格插件 (现在通过lazy.nvim导入)
 

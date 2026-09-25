@@ -42,7 +42,7 @@ end)
 local custom_mods = {
   "custom.open-in-cursor", "custom.fix-ts-directive",
   "custom.markdown-handler", "custom.markdown-inline-handler",
-  "custom.link", "custom.table-wrap", "codemap",
+  "custom.link", "custom.table-wrap",
 }
 for _, m in ipairs(custom_mods) do
   local ok, err = module_ok(m)
@@ -51,7 +51,7 @@ end
 
 -- 3. 关键用户命令存在
 local cmds = {
-  "OpencodeToggleWin", "OpencodeStopWin", "CodeAnalyze", "CursorOpen",
+  "OpencodeToggleWin", "OpencodeStopWin", "CursorOpen",
   "ThemeToggle", "Lazy", "Pi", "PiToggle", "PiTermCopy",
 }
 for _, c in ipairs(cmds) do

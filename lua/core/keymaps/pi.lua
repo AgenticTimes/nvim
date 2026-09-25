@@ -1,4 +1,4 @@
--- pi.nvim 键位（本地 ~/source/pi.nvim）
+-- pi.nvim 键位（AgenticTimes/pi-nvim）
 local map = require("core.keymaps.util").map
 
 --- Leave visual so '< '> marks are set, then run fn

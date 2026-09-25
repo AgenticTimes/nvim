@@ -1,9 +1,8 @@
 -- 代码工作流:Git 符号、终端、注释、代码便签、codegraph
 return {
-  -- Codegraph CLI UI（本地插件：符号查询 / callers / callees / impact）
+  -- Codegraph CLI UI（符号查询 / callers / callees / impact）
   {
-    dir = vim.fn.expand("~/source/codegraph.nvim"),
-    name = "codegraph.nvim",
+    "AgenticTimes/codegraph.nvim",
     cmd = {
       "CodegraphQuery",
       "CodegraphCallers",

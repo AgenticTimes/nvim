@@ -60,10 +60,9 @@ return {
     end,
   },
 
-  -- pi.nvim — 本地 Wave1+：RPC chat UI + host tools + multi-file review
-  -- （替代 AgenticTimes/pi.neovim 的 TUI 默认路径）
+  -- pi.nvim — RPC chat UI + host tools + multi-file review
   {
-    dir = vim.fn.expand("~/source/pi.nvim"),
+    "AgenticTimes/pi-nvim",
     name = "pi.nvim",
     lazy = false,
     config = function()

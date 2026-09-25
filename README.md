@@ -11,7 +11,6 @@ lua/plugins/          插件 spec（按功能域拆分，lazy.nvim）
 lua/lsp/              LSP 客户端配置（gopls/jdtls/marksman/angularls）
 lua/custom/           Markdown 渲染、表格、链接等自定义模块
 scripts/smoke.lua     headless 冒烟测试
-doc/                  插件使用文档
 ```
 
 ## 主要特性

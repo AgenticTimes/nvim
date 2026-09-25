@@ -98,7 +98,7 @@ map("n", "<Leader>'", fzf_lua("resume"), { desc = "Resume last search" })
 map("n", "<Leader>*", fzf_lua("grep_cword"), { desc = "Search for symbol in project" })
 map("n", "<Leader>/", fzf_lua("grep"), { desc = "Search project" })
 map("n", "<Leader><Leader>", fzf_lua("files"), { desc = "Find file in project" })
-map("n", "<Leader><CR>", fzf_lua("marks"), { desc = "Jump to bookmark" })
+-- SPC RET：Arrow 工作集（见 plugins/editor.lua）；vim marks 仍用 SPC sm / SPC bm
 
 map("n", "<Leader>?", function()
   local ok = pcall(vim.cmd, "Legendary")

@@ -244,15 +244,110 @@ return {
     end,
   },
 
-  -- 任务工作集：钉住几个常跳文件（; 打开菜单，s 钉住，1–9 跳转）
+  -- 任务工作集（Doom：SPC RET 书签菜单 / SPC 1–9 跳转）
   {
     "otavioschwanck/arrow.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons" },
     opts = {
       show_icons = true,
-      leader_key = ";", -- 单键菜单（勿与 <Leader>; Eval 混淆）
-      -- 不占用 m（留给 vim marks）；需要行级书签再开 buffer_leader_key
+      leader_key = false, -- 不用默认 `;`，改走 Doom SPC 键位
       save_key = "cwd",
+    },
+    keys = {
+      {
+        "<Leader><CR>",
+        function()
+          require("arrow.ui").openMenu()
+        end,
+        desc = "Arrow bookmarks (SPC RET)",
+      },
+      {
+        "<Leader>bA",
+        function()
+          local path = require("arrow.utils").get_current_buffer_path()
+          require("arrow.persist").toggle(path)
+          local on = require("arrow.persist").is_saved(path)
+          vim.notify(on and ("Arrow: pinned #" .. tostring(on)) or "Arrow: unpinned", vim.log.levels.INFO)
+        end,
+        desc = "Toggle arrow pin",
+      },
+      {
+        "<Leader>1",
+        function()
+          require("arrow.persist").go_to(1)
+        end,
+        desc = "Arrow file 1",
+      },
+      {
+        "<Leader>2",
+        function()
+          require("arrow.persist").go_to(2)
+        end,
+        desc = "Arrow file 2",
+      },
+      {
+        "<Leader>3",
+        function()
+          require("arrow.persist").go_to(3)
+        end,
+        desc = "Arrow file 3",
+      },
+      {
+        "<Leader>4",
+        function()
+          require("arrow.persist").go_to(4)
+        end,
+        desc = "Arrow file 4",
+      },
+      {
+        "<Leader>5",
+        function()
+          require("arrow.persist").go_to(5)
+        end,
+        desc = "Arrow file 5",
+      },
+      {
+        "<Leader>6",
+        function()
+          require("arrow.persist").go_to(6)
+        end,
+        desc = "Arrow file 6",
+      },
+      {
+        "<Leader>7",
+        function()
+          require("arrow.persist").go_to(7)
+        end,
+        desc = "Arrow file 7",
+      },
+      {
+        "<Leader>8",
+        function()
+          require("arrow.persist").go_to(8)
+        end,
+        desc = "Arrow file 8",
+      },
+      {
+        "<Leader>9",
+        function()
+          require("arrow.persist").go_to(9)
+        end,
+        desc = "Arrow file 9",
+      },
+      {
+        "<Leader>]a",
+        function()
+          require("arrow.persist").next()
+        end,
+        desc = "Next arrow file",
+      },
+      {
+        "<Leader>[a",
+        function()
+          require("arrow.persist").previous()
+        end,
+        desc = "Prev arrow file",
+      },
     },
   },
 

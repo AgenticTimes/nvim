@@ -172,7 +172,9 @@ return {
   {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
-    dependencies = {},
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter-context",
+    },
     config = function()
        require("nvim-treesitter.configs").setup({
          ensure_installed = { "lua", "vim", "vimdoc", "javascript", "python" },
@@ -210,7 +212,48 @@ return {
        -- but nvim-treesitter's master branch (archived) treats it as a single TSNode.
        -- This overrides the broken directives with TSNode[]-aware versions.
        require("custom.fix-ts-directive")
+
+       require("treesitter-context").setup({
+         enable = true,
+         max_lines = 3,
+         min_window_height = 0,
+         line_numbers = true,
+         multiline_threshold = 1,
+         trim_scope = "outer",
+         mode = "cursor",
+         separator = nil,
+       })
     end,
+  },
+
+  -- 目录当 buffer 编辑（vim-vinegar 风格）
+  {
+    "stevearc/oil.nvim",
+    lazy = false,
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    config = function()
+      require("oil").setup({
+        default_file_explorer = true,
+        columns = { "icon" },
+        view_options = { show_hidden = false },
+        keymaps = {
+          ["q"] = "actions.close",
+        },
+      })
+      vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory (oil)" })
+    end,
+  },
+
+  -- 任务工作集：钉住几个常跳文件（; 打开菜单，s 钉住，1–9 跳转）
+  {
+    "otavioschwanck/arrow.nvim",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    opts = {
+      show_icons = true,
+      leader_key = ";", -- 单键菜单（勿与 <Leader>; Eval 混淆）
+      -- 不占用 m（留给 vim marks）；需要行级书签再开 buffer_leader_key
+      save_key = "cwd",
+    },
   },
 
   -- 自动补全括号
@@ -237,6 +280,7 @@ return {
           local ft = vim.bo[bufnr].filetype
           local skip_ft = {
             NvimTree = true,
+            oil = true,
             ["neo-tree"] = true,
             ["neo-tree-popup"] = true,
             qf = true,

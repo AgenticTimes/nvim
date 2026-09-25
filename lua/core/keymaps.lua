@@ -801,7 +801,7 @@ map("n", "<Leader>tI", function()
 end, { desc = "Indent style" })
 
 -- ---------- open (SPC o) ----------
-map("n", "<Leader>o-", "<cmd>Explore<cr>", { desc = "Dired" })
+map("n", "<Leader>o-", "<cmd>Oil<cr>", { desc = "Oil (edit directory)" })
 map("n", "<Leader>ot", "<cmd>ToggleTerm<cr>", { desc = "Toggle terminal popup" })
 map("n", "<Leader>oT", function()
   local ok, term = pcall(require, "toggleterm.terminal")
@@ -1310,7 +1310,7 @@ map("n", "<Leader>g.", function()
 end, { desc = "Magit file dispatch" })
 
 -- open leftovers
-map("n", "<Leader>o/", "<cmd>Explore<cr>", { desc = "Open directory in dirvish" })
+map("n", "<Leader>o/", "<cmd>Oil<cr>", { desc = "Open directory (oil)" })
 map("n", "<Leader>od", function()
   vim.notify("Debugger: install nvim-dap to enable", vim.log.levels.INFO)
 end, { desc = "Start debugger" })

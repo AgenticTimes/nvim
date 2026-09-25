@@ -14,7 +14,7 @@ function M.should_skip(bufnr)
   end
 
   -- 跳过特定文件类型的缓冲区
-  if filetype == "TelescopePrompt" or filetype == "neo-tree" or filetype == "NvimTree" or filetype == "qf" or filetype == "help" or filetype == "fugitive" or filetype == "gitcommit" then
+  if filetype == "TelescopePrompt" or filetype == "neo-tree" or filetype == "NvimTree" or filetype == "oil" or filetype == "qf" or filetype == "help" or filetype == "fugitive" or filetype == "gitcommit" then
     return true
   end
 

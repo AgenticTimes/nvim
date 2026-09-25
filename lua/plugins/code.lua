@@ -1,5 +1,80 @@
--- 代码工作流:Git 符号、终端、注释、代码便签
+-- 代码工作流:Git 符号、终端、注释、代码便签、codegraph
 return {
+  -- Codegraph CLI UI（本地插件：符号查询 / callers / callees / impact）
+  {
+    dir = vim.fn.expand("~/source/codegraph.nvim"),
+    name = "codegraph.nvim",
+    cmd = {
+      "CodegraphQuery",
+      "CodegraphCallers",
+      "CodegraphCallees",
+      "CodegraphImpact",
+      "CodegraphSync",
+    },
+    keys = {
+      -- 避开已有 <leader>c{a,c,e,i,m,o,…}；用 q/h/y/p/u
+      {
+        "<leader>cq",
+        function()
+          require("codegraph").query()
+        end,
+        mode = { "n", "v" },
+        desc = "codegraph query (cword/selection)",
+      },
+      {
+        "<leader>cQ",
+        function()
+          vim.ui.input({
+            prompt = "codegraph query: ",
+            default = vim.fn.expand("<cword>"),
+          }, function(input)
+            if input and input:match("%S") then
+              require("codegraph").query(input)
+            end
+          end)
+        end,
+        desc = "codegraph query (prompt)",
+      },
+      {
+        "<leader>ch",
+        function()
+          require("codegraph").callers()
+        end,
+        desc = "codegraph callers",
+      },
+      {
+        "<leader>cy",
+        function()
+          require("codegraph").callees()
+        end,
+        desc = "codegraph callees",
+      },
+      {
+        "<leader>cp",
+        function()
+          require("codegraph").impact()
+        end,
+        desc = "codegraph impact",
+      },
+      {
+        "<leader>cu",
+        function()
+          require("codegraph").sync()
+        end,
+        desc = "codegraph sync",
+      },
+    },
+    config = function()
+      require("codegraph").setup({
+        -- 主索引在 ~/source/.codegraph；在 ~/.config/nvim 等子索引里也会固定用它
+        path = vim.fn.expand("~/source"),
+        limit = 40,
+        impact_depth = 2,
+        picker = "auto",
+      })
+    end,
+  },
+
   -- Git 集成 (类似Cursor的Git界面)
   {
     "lewis6991/gitsigns.nvim",

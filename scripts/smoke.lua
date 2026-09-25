@@ -40,7 +40,7 @@ pcall(function()
   require("lazy").load({ plugins = { "render-markdown.nvim" } })
 end)
 local custom_mods = {
-  "custom.open-in-cursor", "custom.fix-ts-directive",
+  "custom.fix-ts-directive",
   "custom.markdown-handler", "custom.markdown-inline-handler",
   "custom.link", "custom.table-wrap",
 }
@@ -51,7 +51,7 @@ end
 
 -- 3. 关键用户命令存在
 local cmds = {
-  "OpencodeToggleWin", "OpencodeStopWin", "CursorOpen",
+  "OpencodeToggleWin", "OpencodeStopWin",
   "ThemeToggle", "Lazy", "Pi", "PiToggle", "PiTermCopy",
 }
 for _, c in ipairs(cmds) do
@@ -63,7 +63,7 @@ end
 local keys = {
   { mode = "n", lhs = ",co", label = "<Leader>co opencode" },
   { mode = "n", lhs = ",ai", label = "<Leader>ai pi.neovim toggle" },
-  { mode = "n", lhs = ",gc", label = "<Leader>gc open-in-cursor" },
+  { mode = "n", lhs = ",gc", label = "<Leader>gc git commit" },
   { mode = "n", lhs = "gd", label = "gd definition" },
   { mode = "n", lhs = "K", label = "K hover" },
 }

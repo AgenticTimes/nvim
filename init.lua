@@ -29,12 +29,6 @@ require("core.theme")
 -- 静默自动保存
 require("core.autosave")
 
--- 在 Cursor IDE 中打开当前文件（Neovide -> Cursor）
-local ok, open_in_cursor = pcall(require, "custom.open-in-cursor")
-if ok then
-  open_in_cursor.setup({ keymap = "<Leader>gc" })
-end
-
 -- 加载插件
 require("plugins")
 

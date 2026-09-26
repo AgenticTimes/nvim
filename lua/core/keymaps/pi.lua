@@ -21,7 +21,8 @@ map({ "n", "x" }, "<Leader>aI", from_visual(function()
   require("pi").toggle()
 end), { desc = "pi: new session + open" })
 
-map("n", "<Leader>ax", function()
+map({ "n", "i", "x" }, "<Leader>ax", function()
+  vim.cmd("stopinsert")
   require("pi").interrupt()
 end, { desc = "pi: interrupt LLM request" })
 

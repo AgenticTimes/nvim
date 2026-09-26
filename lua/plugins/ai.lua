@@ -67,6 +67,8 @@ return {
     lazy = false,
     config = function()
       require("pi").setup({
+        bootstrap = true,
+        summon_key = "<C-Space>",
         keys = {
           toggle = "<leader>ai",
           submit = "<CR>", -- Enter 提交
@@ -83,7 +85,13 @@ return {
         },
         busy_submit = "steer",
         write_on_accept = true,
-        window = { width = 1.0, height = 1.0, layout = "full", border = "none" },
+        window = {
+          layout = "float",
+          width = 1.0,
+          height = 1.0,
+          border = "rounded",
+          winblend = 18,
+        },
       })
       -- 避免 nvim-cmp 抢走 pi input 的 <CR>
       vim.api.nvim_create_autocmd("BufEnter", {

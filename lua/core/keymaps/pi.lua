@@ -21,6 +21,10 @@ map({ "n", "x" }, "<Leader>aI", from_visual(function()
   require("pi").toggle()
 end), { desc = "pi: new session + open" })
 
+map("n", "<Leader>ax", function()
+  require("pi").interrupt()
+end, { desc = "pi: interrupt LLM request" })
+
 map("n", "<Leader>ad", function()
   require("pi.review").open(1)
 end, { desc = "pi: open review diff" })

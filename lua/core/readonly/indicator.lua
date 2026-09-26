@@ -1,4 +1,4 @@
--- 只读模式浮窗指示器:右上角 " READONLY " 小浮窗
+-- 只读模式浮窗指示器:右上角 " R " 小浮窗
 local M = {}
 
 M.floating_win = nil
@@ -19,7 +19,7 @@ function M.update(enabled)
   if enabled then
     -- 创建缓冲区
     M.floating_buf = vim.api.nvim_create_buf(false, true)
-    vim.api.nvim_buf_set_lines(M.floating_buf, 0, -1, false, { " READONLY " })
+    vim.api.nvim_buf_set_lines(M.floating_buf, 0, -1, false, { " R " })
     vim.api.nvim_buf_set_option(M.floating_buf, 'buftype', 'nofile')
     vim.api.nvim_buf_set_option(M.floating_buf, 'bufhidden', 'wipe')
     vim.api.nvim_buf_set_option(M.floating_buf, 'modifiable', false)
@@ -29,7 +29,7 @@ function M.update(enabled)
     vim.api.nvim_buf_add_highlight(M.floating_buf, -1, 'WarningMsg', 0, 0, -1)
 
     -- 计算位置（右上角）
-    local width = 12  -- " READONLY " 的长度
+    local width = 3  -- " R " 的长度
     local height = 1
     local row = 1      -- 离顶部一些间距
     local col = vim.o.columns - width - 1

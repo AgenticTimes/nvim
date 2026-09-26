@@ -26,6 +26,10 @@ map({ "n", "i", "x" }, "<Leader>ax", function()
   require("pi").interrupt()
 end, { desc = "pi: interrupt LLM request" })
 
+map("n", "<Leader>aC", function()
+  require("pi").compact()
+end, { desc = "pi: compact context" })
+
 map("n", "<Leader>ad", function()
   require("pi.review").open(1)
 end, { desc = "pi: open review diff" })

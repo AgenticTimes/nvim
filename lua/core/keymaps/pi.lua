@@ -30,6 +30,10 @@ map("n", "<Leader>aC", function()
   require("pi").compact()
 end, { desc = "pi: compact context" })
 
+map("n", "<Leader>aU", function()
+  require("pi").toggle_auto_compaction()
+end, { desc = "pi: toggle auto-compaction" })
+
 map("n", "<Leader>ad", function()
   require("pi.review").open(1)
 end, { desc = "pi: open review diff" })

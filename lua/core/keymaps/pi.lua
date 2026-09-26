@@ -21,6 +21,21 @@ map({ "n", "x" }, "<Leader>aI", from_visual(function()
   require("pi").toggle()
 end), { desc = "pi: new session + open" })
 
+map("n", "<Leader>a+", function()
+  local s, err = require("pi.slots").create()
+  if not s then
+    vim.notify("pi: " .. tostring(err), vim.log.levels.WARN)
+  end
+end, { desc = "pi: new parallel slot" })
+
+map("n", "<Leader>a_", function()
+  require("pi.slots").close()
+end, { desc = "pi: close primary slot" })
+
+map("n", "<Leader>a>", function()
+  require("pi.slots").cycle_primary(1)
+end, { desc = "pi: cycle primary slot" })
+
 map({ "n", "i", "x" }, "<Leader>ax", function()
   vim.cmd("stopinsert")
   require("pi").interrupt()
